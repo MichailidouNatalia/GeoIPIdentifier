@@ -1,0 +1,85 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5340EF2B-ABAA-4346-ABEB-59375AF18BD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoIPIdentifier.Domain", "src\GeoIPIdentifier.Domain\GeoIPIdentifier.Domain.csproj", "{F81116AC-97E6-4C5B-BE27-F89CCE765934}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoIPIdentifier.Shared", "src\GeoIPIdentifier.Shared\GeoIPIdentifier.Shared.csproj", "{790F7B33-EBF6-431F-A9CF-0D9B098D7C5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoIPIdentifier.Application", "src\GeoIPIdentifier.Application\GeoIPIdentifier.Application.csproj", "{FAB7FED5-25A3-407C-B1AB-AE248F5B6980}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoIPIdentifier.API", "src\GeoIPIdentifier.API\GeoIPIdentifier.API.csproj", "{BCF77A6E-D0FC-42CD-B4AD-AB6BAE08C5A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FDDE8026-D265-414A-B815-A0CEB8C32434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoIPIdentifier.API.Tests", "tests\GeoIPIdentifier.API.Tests\GeoIPIdentifier.API.Tests.csproj", "{203ED87C-EBCD-4FC8-ADB6-2299A30F3ADC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoIPIdentifier.Application.Tests", "tests\GeoIPIdentifier.Application.Tests\GeoIPIdentifier.Application.Tests.csproj", "{E7B3B921-0A17-4495-BDB2-520CA156303C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoIPIdentifier.Domain.Tests", "tests\GeoIPIdentifier.Domain.Tests\GeoIPIdentifier.Domain.Tests.csproj", "{19066AC4-0F71-4AD5-8483-A09D5E574230}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoIPIdentifier.Adapters.Tests", "tests\GeoIPIdentifier.Adapters.Tests\GeoIPIdentifier.Adapters.Tests.csproj", "{F23ACDC4-5E60-4CDB-A6C8-B16779046A7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoIPIdentifier.Adapters", "src\GeoIPIdentifier.Adapters\GeoIPIdentifier.Adapters.csproj", "{0CA8560B-7223-48C4-BA3C-FF3BFFBBFC89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F81116AC-97E6-4C5B-BE27-F89CCE765934}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F81116AC-97E6-4C5B-BE27-F89CCE765934}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F81116AC-97E6-4C5B-BE27-F89CCE765934}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F81116AC-97E6-4C5B-BE27-F89CCE765934}.Release|Any CPU.Build.0 = Release|Any CPU
+		{790F7B33-EBF6-431F-A9CF-0D9B098D7C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{790F7B33-EBF6-431F-A9CF-0D9B098D7C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{790F7B33-EBF6-431F-A9CF-0D9B098D7C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{790F7B33-EBF6-431F-A9CF-0D9B098D7C5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAB7FED5-25A3-407C-B1AB-AE248F5B6980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAB7FED5-25A3-407C-B1AB-AE248F5B6980}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAB7FED5-25A3-407C-B1AB-AE248F5B6980}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAB7FED5-25A3-407C-B1AB-AE248F5B6980}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCF77A6E-D0FC-42CD-B4AD-AB6BAE08C5A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCF77A6E-D0FC-42CD-B4AD-AB6BAE08C5A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCF77A6E-D0FC-42CD-B4AD-AB6BAE08C5A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCF77A6E-D0FC-42CD-B4AD-AB6BAE08C5A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{203ED87C-EBCD-4FC8-ADB6-2299A30F3ADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{203ED87C-EBCD-4FC8-ADB6-2299A30F3ADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{203ED87C-EBCD-4FC8-ADB6-2299A30F3ADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{203ED87C-EBCD-4FC8-ADB6-2299A30F3ADC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7B3B921-0A17-4495-BDB2-520CA156303C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7B3B921-0A17-4495-BDB2-520CA156303C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7B3B921-0A17-4495-BDB2-520CA156303C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7B3B921-0A17-4495-BDB2-520CA156303C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19066AC4-0F71-4AD5-8483-A09D5E574230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19066AC4-0F71-4AD5-8483-A09D5E574230}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19066AC4-0F71-4AD5-8483-A09D5E574230}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19066AC4-0F71-4AD5-8483-A09D5E574230}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F23ACDC4-5E60-4CDB-A6C8-B16779046A7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F23ACDC4-5E60-4CDB-A6C8-B16779046A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F23ACDC4-5E60-4CDB-A6C8-B16779046A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F23ACDC4-5E60-4CDB-A6C8-B16779046A7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CA8560B-7223-48C4-BA3C-FF3BFFBBFC89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CA8560B-7223-48C4-BA3C-FF3BFFBBFC89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CA8560B-7223-48C4-BA3C-FF3BFFBBFC89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CA8560B-7223-48C4-BA3C-FF3BFFBBFC89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F81116AC-97E6-4C5B-BE27-F89CCE765934} = {5340EF2B-ABAA-4346-ABEB-59375AF18BD0}
+		{790F7B33-EBF6-431F-A9CF-0D9B098D7C5A} = {5340EF2B-ABAA-4346-ABEB-59375AF18BD0}
+		{FAB7FED5-25A3-407C-B1AB-AE248F5B6980} = {5340EF2B-ABAA-4346-ABEB-59375AF18BD0}
+		{BCF77A6E-D0FC-42CD-B4AD-AB6BAE08C5A7} = {5340EF2B-ABAA-4346-ABEB-59375AF18BD0}
+		{203ED87C-EBCD-4FC8-ADB6-2299A30F3ADC} = {FDDE8026-D265-414A-B815-A0CEB8C32434}
+		{E7B3B921-0A17-4495-BDB2-520CA156303C} = {FDDE8026-D265-414A-B815-A0CEB8C32434}
+		{19066AC4-0F71-4AD5-8483-A09D5E574230} = {FDDE8026-D265-414A-B815-A0CEB8C32434}
+		{F23ACDC4-5E60-4CDB-A6C8-B16779046A7E} = {FDDE8026-D265-414A-B815-A0CEB8C32434}
+		{0CA8560B-7223-48C4-BA3C-FF3BFFBBFC89} = {5340EF2B-ABAA-4346-ABEB-59375AF18BD0}
+	EndGlobalSection
+EndGlobal

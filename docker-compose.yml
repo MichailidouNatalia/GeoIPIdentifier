@@ -1,0 +1,52 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: geoip_sqlserver
+    environment:
+      SA_PASSWORD: "YourStrong@Password123"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+      - ./docker/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - geoip-network
+
+  redis:
+    image: redis:latest
+    container_name: geoip_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - geoip-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: geoip_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=GeoIPDb;User=sa;Password=YourStrong@Password123;TrustServerCertificate=true;
+      - Redis__ConnectionString=redis:6379
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sqlserver
+      - redis
+    networks:
+      - geoip-network
+
+volumes:
+  sql_data:
+  redis_data:
+
+networks:
+  geoip-network:
+    driver: bridge

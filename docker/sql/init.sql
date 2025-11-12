@@ -1,0 +1,8 @@
+IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'GeoIPDb')
+BEGIN
+    CREATE DATABASE GeoIPDb;
+END
+GO
+
+USE GeoIPDb;
+GO
