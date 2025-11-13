@@ -5,8 +5,6 @@ public record GeoIPResponseDto(
     string IPAddress,
     string CountryCode,
     string CountryName,
-    string Region,
-    string City,
     decimal Latitude,
     decimal Longitude,
     string Timezone,

@@ -15,15 +15,10 @@ public class GeoIPDataConfiguration : IEntityTypeConfiguration<GeoIPData>
             
         builder.Property(x => x.CountryCode)
             .HasMaxLength(5);
-            
+
         builder.Property(x => x.CountryName)
             .HasMaxLength(100);
-            
-        builder.Property(x => x.Region)
-            .HasMaxLength(100);
-            
-        builder.Property(x => x.City)
-            .HasMaxLength(100);
+    
             
         builder.Property(x => x.Timezone)
             .HasMaxLength(50);

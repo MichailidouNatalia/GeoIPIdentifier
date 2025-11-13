@@ -1,12 +1,15 @@
 using GeoIPIdentifier.Adapters.Clients;
 using GeoIPIdentifier.Adapters.DataAccess;
+using GeoIPIdentifier.Adapters.GatewayIntegration.IPBase.Mappings;
 using GeoIPIdentifier.Adapters.Repositories;
 using GeoIPIdentifier.Adapters.Services;
+using GeoIPIdentifier.API.Middleware;
 using GeoIPIdentifier.Application.Interfaces;
-using GeoIPIdentifier.Application.Mappers;
+using GeoIPIdentifier.Application.Mappings;
 using GeoIPIdentifier.Application.Services;
 using GeoIPIdentifier.Shared.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace GeoIPIdentifier.API;
@@ -18,7 +21,12 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services
-        builder.Services.AddControllers();
+        builder.Services.AddControllers()
+        .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+        options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+    });
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -47,10 +55,14 @@ public class Program
 
         // AutoMapper
         builder.Services.AddAutoMapper(
-            typeof(GeoIPMappingProfile).Assembly
+            typeof(GeoIPMappingProfile).Assembly,
+            typeof(IPBaseMappingProfile).Assembly
         //,typeof(Adapters.Mappings.InfrastructureMappingProfile).Assembly);
         );
         var app = builder.Build();
+
+        // Middleware
+        app.UseMiddleware<ExceptionMiddleware>();
 
         // Configure pipeline
         if (app.Environment.IsDevelopment())

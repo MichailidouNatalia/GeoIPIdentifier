@@ -1,13 +1,18 @@
+version: "3.9"
+
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64
     container_name: geoip_sqlserver
     environment:
-      SA_PASSWORD: "YourStrong@Password123"
+      MSSQL_SA_PASSWORD: "YourStrong@Password123"
       ACCEPT_EULA: "Y"
       MSSQL_PID: "Express"
     ports:
       - "1433:1433"
+    security_opt:
+      - seccomp=unconfined
     volumes:
       - sql_data:/var/opt/mssql
       - ./docker/sql/init.sql:/docker-entrypoint-initdb.d/init.sql

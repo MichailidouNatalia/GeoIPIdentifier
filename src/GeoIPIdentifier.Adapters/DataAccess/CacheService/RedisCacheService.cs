@@ -1,6 +1,7 @@
 using StackExchange.Redis;
 using Newtonsoft.Json;
 using GeoIPIdentifier.Shared.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace GeoIPIdentifier.Adapters.Services;
 
@@ -9,10 +10,13 @@ public class RedisCacheService : ICacheService
     private readonly IConnectionMultiplexer _redis;
     private readonly IDatabase _database;
 
-    public RedisCacheService(IConnectionMultiplexer redis)
+    private readonly ILogger<RedisCacheService> _logger;
+
+    public RedisCacheService(IConnectionMultiplexer redis, ILogger<RedisCacheService> logger)
     {
         _redis = redis;
         _database = redis.GetDatabase();
+        _logger = logger;
     }
 
     public async Task<T?> GetAsync<T>(string key)
