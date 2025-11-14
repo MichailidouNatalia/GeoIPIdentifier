@@ -8,24 +8,66 @@ namespace GeoIPIdentifier.API.Controllers;
 [Route("api/geoip")]
 public class GeoIPController : ControllerBase
 {
-    private readonly IGeoIPService _geoIPService;
+  private readonly IGeoIPService _geoIPService;
+  private readonly ILogger<GeoIPController> _logger;
 
-    public GeoIPController(IGeoIPService geoIPService)
-    {
-        _geoIPService = geoIPService;
-    }
+  public GeoIPController(IGeoIPService geoIPService, ILogger<GeoIPController> logger)
+  {
+    _geoIPService = geoIPService;
+    _logger = logger;
+  }
 
-    [HttpGet("{ipAddress}")]
-    public async Task<ActionResult<GeoIPResponseDto>> IdentifyIP(string ipAddress)
-    {
-        var result = await _geoIPService.IdentifyIPAsync(ipAddress);
-        return Ok(result);
-    }
+  [HttpGet("{ipAddress}")]
+  public async Task<ActionResult<GeoIPResponseDto>> IdentifyIP(string ipAddress)
+  {
+    var result = await _geoIPService.IdentifyIPAsync(ipAddress);
+    return Ok(result);
+  }
 
-    [HttpGet("history")]
-    public async Task<ActionResult<IEnumerable<GeoIPResponseDto>>> GetHistory()
+  [HttpPost("geolocate")]
+  public async Task<ActionResult<BatchGeoIPResponseDto>> BatchGeolocate(BatchGeoIPRequestDto request)
+  {
+    try
     {
-        var result = await _geoIPService.GetHistoryAsync();
-        return Ok(result);
+      if (request.IPAddresses == null || !request.IPAddresses.Any())
+        return BadRequest("At least one IP address is required.");
+
+      if (request.IPAddresses.Count > 1000)
+        return BadRequest("Maximum 1000 IP addresses allowed per batch.");
+
+      var batchId = await _geoIPService.StartBatchProcessingAsync(request.IPAddresses);
+
+      var progressUrl = Url.Action("GetProgress", "Batch", new { id = batchId }, Request.Scheme)!;
+
+      _logger.LogInformation("Started batch {BatchId} with {Count} IPs", batchId, request.IPAddresses.Count);
+
+      return Ok(new BatchGeoIPResponseDto(
+          BatchId: batchId,
+          ProgressUrl: progressUrl
+      ));
     }
+    catch (Exception ex)
+    {
+      _logger.LogError(ex, "Error starting batch processing");
+      return StatusCode(500, "An error occurred while starting batch processing.");
+    }
+  }
+
+  [HttpGet("{id}/progress")]
+  public async Task<ActionResult<BatchProgressResponse>> GetProgress(string id)
+  {
+    try
+    {
+      var progress = await _geoIPService.GetBatchProgressAsync(id);
+      if (progress == null)
+        return NotFound($"Batch ID {id} not found or expired.");
+
+      return Ok(progress);
+    }
+    catch (Exception ex)
+    {
+      _logger.LogError(ex, "Error getting progress for batch {BatchId}", id);
+      return StatusCode(500, "An error occurred while retrieving progress.");
+    }
+  }
 }

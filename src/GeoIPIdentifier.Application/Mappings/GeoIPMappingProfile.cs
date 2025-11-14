@@ -6,8 +6,8 @@ namespace GeoIPIdentifier.Application.Mappings;
 
 public class GeoIPMappingProfile : Profile
 {
-    public GeoIPMappingProfile()
-    {
-        CreateMap<GeoIPData, GeoIPResponseDto>();
-    }
+  public GeoIPMappingProfile()
+  {
+    CreateMap<GeoIPData, GeoIPResponseDto>();
+  }
 }
