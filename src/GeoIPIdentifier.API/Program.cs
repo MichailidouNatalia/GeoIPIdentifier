@@ -11,6 +11,7 @@ using GeoIPIdentifier.Application.Services;
 using GeoIPIdentifier.Shared.Interfaces;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
 using Quartz;
 using Quartz.AspNetCore;
@@ -60,7 +61,6 @@ public class Program
           .WithIdentity("BatchGeoIPJob", "geoip-batches")
           .StoreDurably()
       );
-
 });
 
     // Register Quartz server
@@ -73,6 +73,7 @@ public class Program
     // Application Services
     builder.Services.AddScoped<IGeoIPService, GeoIPService>();
     builder.Services.AddScoped<IExternalGeoIPService, IPBaseGateway>();
+    builder.Services.AddScoped<IBatchJobScheduler, BatchJobScheduler>();
 
     // Infrastructure Services & Repositories
     builder.Services.AddScoped<IGeoIPRepository, GeoIPRepository>();
@@ -92,18 +93,18 @@ public class Program
     //,typeof(Adapters.Mappings.InfrastructureMappingProfile).Assembly);
     );
 
-
-    builder.Services.AddHealthChecks()
-    .Services
-      .AddSqlServer<ApplicationDbContext>(
-        builder.Configuration.GetConnectionString("DefaultConnection"))
-      .AddStackExchangeRedisCache(
-        builder.Configuration.GetValue<string>("Redis:ConnectionString"));
-
     // Add health checks
     builder.Services.AddHealthChecks()
-    .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!)
-    .AddRedis(builder.Configuration.GetConnectionString("Redis")!);; 
+        .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!,
+                      healthQuery: "SELECT 1;",
+                      configure: null,
+                      name: "sqlserver",
+                      failureStatus: HealthStatus.Unhealthy,
+                      tags: ["database", "ready"])
+        .AddRedis(
+            builder.Configuration.GetValue<string>("Redis:ConnectionString")!,
+            name: "Redis",
+            tags: ["ready"]); 
 
     var app = builder.Build();
     
@@ -121,17 +122,16 @@ app.MapHealthChecks("/health/live", new HealthCheckOptions
     // Middleware
     app.UseMiddleware<ExceptionMiddleware>();
 
-    // Configure pipeline
-    if (app.Environment.IsDevelopment())
-    {
-      app.UseSwagger();
-      app.UseSwaggerUI();
-
-      // Initialize database
-      using var scope = app.Services.CreateScope();
-      var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-      await dbContext.Database.MigrateAsync();
-    }
+   
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    
+    // Initialize database
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await dbContext.Database.EnsureCreatedAsync();
+    await dbContext.Database.MigrateAsync();
+  
 
     app.UseHttpsRedirection();
     app.UseAuthorization();

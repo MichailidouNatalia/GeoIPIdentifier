@@ -8,6 +8,8 @@ public class GeoIPDataConfiguration : IEntityTypeConfiguration<GeoIPData>
 {
   public void Configure(EntityTypeBuilder<GeoIPData> builder)
   {
+    builder.ToTable("GeoIPData");
+    
     builder.HasKey(x => x.Id);
 
     builder.Property(x => x.IPAddress)

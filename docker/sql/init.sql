@@ -2,6 +2,7 @@
 IF NOT EXISTS(SELECT name FROM master.dbo.sysdatabases WHERE name = 'GeoIPDb')
 BEGIN
     CREATE DATABASE GeoIPDb;
+    PRINT 'Database GeoIPDb created successfully';
 END
 GO
 
