@@ -5,19 +5,12 @@ using Microsoft.Extensions.Logging;
 
 namespace GeoIPIdentifier.Adapters.DataAccess.CacheService;
 
-public class RedisCacheService : ICacheService
+public class RedisCacheService(IConnectionMultiplexer redis, ILogger<RedisCacheService> logger) : ICacheService
 {
-  private readonly IConnectionMultiplexer _redis;
-  private readonly IDatabase _database;
+  private readonly IConnectionMultiplexer _redis = redis;
+  private readonly IDatabase _database = redis.GetDatabase();
 
-  private readonly ILogger<RedisCacheService> _logger;
-
-  public RedisCacheService(IConnectionMultiplexer redis, ILogger<RedisCacheService> logger)
-  {
-    _redis = redis;
-    _database = redis.GetDatabase();
-    _logger = logger;
-  }
+  private readonly ILogger<RedisCacheService> _logger = logger;
 
   public async Task<T?> GetAsync<T>(string key)
   {

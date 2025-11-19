@@ -104,34 +104,34 @@ public class Program
         .AddRedis(
             builder.Configuration.GetValue<string>("Redis:ConnectionString")!,
             name: "Redis",
-            tags: ["ready"]); 
+            tags: ["ready"]);
 
     var app = builder.Build();
-    
+
     // Add health check endpoint
-app.MapHealthChecks("/health");
-app.MapHealthChecks("/health/ready", new HealthCheckOptions
-{
-    Predicate = check => check.Tags.Contains("ready")
-});
-app.MapHealthChecks("/health/live", new HealthCheckOptions
-{
-    Predicate = _ => false
-});
+    app.MapHealthChecks("/health");
+    app.MapHealthChecks("/health/ready", new HealthCheckOptions
+    {
+      Predicate = check => check.Tags.Contains("ready")
+    });
+    app.MapHealthChecks("/health/live", new HealthCheckOptions
+    {
+      Predicate = _ => false
+    });
 
     // Middleware
     app.UseMiddleware<ExceptionMiddleware>();
 
-   
+
     app.UseSwagger();
     app.UseSwaggerUI();
-    
+
     // Initialize database
     using var scope = app.Services.CreateScope();
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     await dbContext.Database.EnsureCreatedAsync();
     await dbContext.Database.MigrateAsync();
-  
+
 
     app.UseHttpsRedirection();
     app.UseAuthorization();

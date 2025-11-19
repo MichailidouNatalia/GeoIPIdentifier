@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using GeoIPIdentifier.Domain.Entities;
-using GeoIPIdentifier.Adapters.DataAccess;
 using GeoIPIdentifier.Application.Interfaces;
 
 namespace GeoIPIdentifier.Adapters.DataAccess.Repositories;

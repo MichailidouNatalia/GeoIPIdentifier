@@ -5,7 +5,7 @@ namespace GeoIPIdentifier.Adapters.GatewayIntegration.IPBase.DTOs;
 public class IPBaseResponseDto
 {
   [JsonProperty("data")]
-  public IPBaseDataDto Data { get; set; }
+  public required IPBaseDataDto Data { get; set; }
 }
 
 public class IPBaseDataDto

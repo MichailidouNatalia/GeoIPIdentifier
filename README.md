@@ -102,7 +102,7 @@ dotnet run
 - `ConnectionStrings__DefaultConnection`: SQL Server connection string
 - `ConnectionStrings__Redis`: Redis connection string
 - `Quartz__*`: Quartz scheduler configuration
-- `IPBase__Configuration`: Api key configuration
+- `IPBase__ApiKey`: Api key configuration
 
 ### Docker Services
 
