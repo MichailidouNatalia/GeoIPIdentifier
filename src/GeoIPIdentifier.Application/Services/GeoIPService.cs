@@ -12,7 +12,7 @@ public class GeoIPService(
     IGeoIPRepository repository,
     ICacheService cacheService,
     IMapper mapper,
-    IExternalGeoIPService externalService,
+    IIPBaseClient externalService,
     IBatchJobScheduler jobScheduler,
     IConnectionMultiplexer redis,
     ILogger<GeoIPService> logger) : IGeoIPService
@@ -20,7 +20,7 @@ public class GeoIPService(
   private readonly IGeoIPRepository _repository = repository;
   private readonly ICacheService _cacheService = cacheService;
   private readonly IMapper _mapper = mapper;
-  private readonly IExternalGeoIPService _externalService = externalService;
+  private readonly IIPBaseClient _externalService = externalService;
     private readonly IBatchJobScheduler _jobScheduler = jobScheduler;
   private readonly IConnectionMultiplexer _redis = redis;
   private readonly ILogger<GeoIPService> _logger = logger;
@@ -38,6 +38,7 @@ public class GeoIPService(
     {
       // Check cache first
       var cacheKey = $"geoip:{ipAddress}";
+       _logger.LogInformation("Cache key: {CacheKey}", cacheKey);
       var cached = await _cacheService.GetAsync<GeoIPResponseDto>(cacheKey);
       if (cached != null)
         return cached;

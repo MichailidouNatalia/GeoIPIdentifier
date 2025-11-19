@@ -7,7 +7,5 @@ public record GeoIPResponseDto(
     string CountryName,
     decimal Latitude,
     decimal Longitude,
-    string Timezone,
-    bool IsFromCache,
-    DateTime CreatedAt);
+    string Timezone);
 

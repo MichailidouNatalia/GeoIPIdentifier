@@ -3,7 +3,7 @@ using GeoIPIdentifier.Domain.Entities;
 using GeoIPIdentifier.Adapters.DataAccess;
 using GeoIPIdentifier.Application.Interfaces;
 
-namespace GeoIPIdentifier.Adapters.Repositories;
+namespace GeoIPIdentifier.Adapters.DataAccess.Repositories;
 
 public class GeoIPRepository : IGeoIPRepository
 {

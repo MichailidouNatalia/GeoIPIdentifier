@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using GeoIPIdentifier.Application.DTOs;
 using GeoIPIdentifier.Application.Interfaces;
 using GeoIPIdentifier.Domain.Entities;
 using GeoIPIdentifier.Domain.Exceptions;
@@ -8,9 +7,9 @@ using Microsoft.Extensions.Logging;
 using GeoIPIdentifier.Adapters.GatewayIntegration.IPBase.DTOs;
 using AutoMapper;
 
-namespace GeoIPIdentifier.Adapters.Clients;
+namespace GeoIPIdentifier.Adapters.GatewayIntegration.IPBase.Client;
 
-public class IPBaseGateway : IExternalGeoIPService
+public class IPBaseGateway : IIPBaseClient
 {
   private readonly HttpClient _httpClient;
   private readonly IConfiguration _configuration;

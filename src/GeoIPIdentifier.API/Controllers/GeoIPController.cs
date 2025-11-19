@@ -5,17 +5,11 @@ using GeoIPIdentifier.Application.Interfaces;
 namespace GeoIPIdentifier.API.Controllers;
 
 [ApiController]
-[Route("api/geoip")]
-public class GeoIPController : ControllerBase
+[Route("api/geoip", Name = "GeoIPInfo")]
+public class GeoIPController(IGeoIPService geoIPService, ILogger<GeoIPController> logger) : ControllerBase
 {
-  private readonly IGeoIPService _geoIPService;
-  private readonly ILogger<GeoIPController> _logger;
-
-  public GeoIPController(IGeoIPService geoIPService, ILogger<GeoIPController> logger)
-  {
-    _geoIPService = geoIPService;
-    _logger = logger;
-  }
+  private readonly IGeoIPService _geoIPService = geoIPService;
+  private readonly ILogger<GeoIPController> _logger = logger;
 
   [HttpGet("{ipAddress}")]
   public async Task<ActionResult<GeoIPResponseDto>> IdentifyIP(string ipAddress)
@@ -24,12 +18,12 @@ public class GeoIPController : ControllerBase
     return Ok(result);
   }
 
-  [HttpPost("geolocate")]
+  [HttpPost("batch", Name = "BatchGeolocate")]
   public async Task<ActionResult<BatchGeoIPResponseDto>> BatchGeolocate(BatchGeoIPRequestDto request)
   {
     try
     {
-      if (request.IPAddresses == null || !request.IPAddresses.Any())
+      if (request.IPAddresses == null || request.IPAddresses.Count == 0)
         return BadRequest("At least one IP address is required.");
 
       if (request.IPAddresses.Count > 1000)
@@ -37,7 +31,7 @@ public class GeoIPController : ControllerBase
 
       var batchId = await _geoIPService.StartBatchProcessingAsync(request.IPAddresses);
 
-      var progressUrl = Url.Action("GetProgress", "Batch", new { id = batchId }, Request.Scheme)!;
+      var progressUrl = Url.RouteUrl("GetProgress", new { id = batchId }, Request.Scheme)!;
 
       _logger.LogInformation("Started batch {BatchId} with {Count} IPs", batchId, request.IPAddresses.Count);
 
@@ -53,7 +47,7 @@ public class GeoIPController : ControllerBase
     }
   }
 
-  [HttpGet("{id}/progress")]
+  [HttpGet("/batch/{id}", Name = "GetProgress")]
   public async Task<ActionResult<BatchProgressResponse>> GetProgress(string id)
   {
     try

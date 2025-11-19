@@ -1,8 +1,8 @@
-using GeoIPIdentifier.Adapters.Clients;
 using GeoIPIdentifier.Adapters.DataAccess;
+using GeoIPIdentifier.Adapters.DataAccess.CacheService;
+using GeoIPIdentifier.Adapters.DataAccess.Repositories;
+using GeoIPIdentifier.Adapters.GatewayIntegration.IPBase.Client;
 using GeoIPIdentifier.Adapters.GatewayIntegration.IPBase.Mappings;
-using GeoIPIdentifier.Adapters.Repositories;
-using GeoIPIdentifier.Adapters.Services;
 using GeoIPIdentifier.API.Middleware;
 using GeoIPIdentifier.Application.Interfaces;
 using GeoIPIdentifier.Application.Jobs;
@@ -72,7 +72,7 @@ public class Program
 
     // Application Services
     builder.Services.AddScoped<IGeoIPService, GeoIPService>();
-    builder.Services.AddScoped<IExternalGeoIPService, IPBaseGateway>();
+    builder.Services.AddScoped<IIPBaseClient, IPBaseGateway>();
     builder.Services.AddScoped<IBatchJobScheduler, BatchJobScheduler>();
 
     // Infrastructure Services & Repositories

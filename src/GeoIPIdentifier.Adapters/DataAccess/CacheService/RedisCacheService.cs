@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using GeoIPIdentifier.Shared.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace GeoIPIdentifier.Adapters.Services;
+namespace GeoIPIdentifier.Adapters.DataAccess.CacheService;
 
 public class RedisCacheService : ICacheService
 {
@@ -22,11 +22,16 @@ public class RedisCacheService : ICacheService
   public async Task<T?> GetAsync<T>(string key)
   {
     var value = await _database.StringGetAsync(key);
+    if (value.HasValue)
+    {
+      _logger.LogDebug("Cache key found: {Key}", key);
+    }
     return value.HasValue ? JsonConvert.DeserializeObject<T>(value!) : default;
   }
 
   public async Task SetAsync<T>(string key, T value, TimeSpan? expiration = null)
   {
+     _logger.LogInformation("Setting cache key: {Key} with expiration: {Expiration}", key, expiration);
     var serializedValue = JsonConvert.SerializeObject(value);
     await _database.StringSetAsync(key, serializedValue, expiration);
   }
@@ -34,10 +39,5 @@ public class RedisCacheService : ICacheService
   public async Task RemoveAsync(string key)
   {
     await _database.KeyDeleteAsync(key);
-  }
-
-  public async Task<bool> ExistsAsync(string key)
-  {
-    return await _database.KeyExistsAsync(key);
   }
 }

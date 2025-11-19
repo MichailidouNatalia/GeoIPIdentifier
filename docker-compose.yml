@@ -6,7 +6,7 @@ services:
     platform: linux/amd64
     container_name: geoip_sqlserver
     environment:
-      MSSQL_SA_PASSWORD: "YourStrong@Password123"
+      MSSQL_SA_PASSWORD: "OIdsf12jJH(^asuh64a6d9"
       ACCEPT_EULA: "Y"
       MSSQL_PID: "Express"
       MSSQL_MEMORY_LIMIT_MB: "2048"
@@ -21,7 +21,7 @@ services:
     networks:
       - geoip-network
     healthcheck:
-      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "YourStrong@Password123" -d master -C -Q "SELECT 1" -b -o /dev/null
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "OIdsf12jJH(^asuh64a6d9" -d master -C -Q "SELECT 1" -b -o /dev/null
       timeout: 10s
       retries: 15
       interval: 10s
@@ -53,7 +53,7 @@ services:
     container_name: geoip_api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=GeoIPDb;User=sa;Password=YourStrong@Password123;TrustServerCertificate=true;Connect Timeout=30
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=GeoIPDb;User=sa;Password=OIdsf12jJH(^asuh64a6d9;TrustServerCertificate=true;Connect Timeout=30
       - ConnectionStrings__Redis=geoip_redis:6379,abortConnect=false,connectRetry=5,connectTimeout=5000,syncTimeout=5000
       - Quartz__jobStore__type=Quartz.Simpl.RAMJobStore, Quartz
       - Quartz__threadPool__type=Quartz.Simpl.SimpleThreadPool, Quartz
